@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AgriSim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">AgriSim</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="risks.html">Risk Monitoring</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="marketplace.html">Marketplace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="map.html">Farm Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="farm-config.html">Farm Config</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recommendations.html">AI Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container mt-5 pt-4">
+        <h1 class="mb-4"></h1>
+        
+        <!-- Quick Stats -->
+        <div class="row dashboard-stats">
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <i class="fas fa-seedling"></i>
+                    <h3>5</h3>
+                    <p>Active Crops</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>45</h3>
+                    <p>Days to Harvest</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>85%</h3>
+                    <p>Yield Prediction</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>2</h3>
+                    <p>Active Alerts</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop Simulation -->
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Crop Growth Simulation</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-3" style="height: 25px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" 
+                                 aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65% Growth</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Current Status</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-temperature-high me-2"></i>Temperature: 28°C</li>
+                                    <li><i class="fas fa-tint me-2"></i>Humidity: 65%</li>
+                                    <li><i class="fas fa-cloud-sun me-2"></i>Weather: Partly Cloudy</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Predicted Harvest</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-calendar me-2"></i>Date: June 15, 2024</li>
+                                    <li><i class="fas fa-weight me-2"></i>Expected Yield: 2.5 tons</li>
+                                    <li><i class="fas fa-chart-line me-2"></i>Quality: Excellent</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">AI Recommendations</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>
+                                Increase irrigation by 20% next week
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>
+                                Apply fertilizer in 3 days
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>
+                                Monitor for pest activity
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Recent Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="d-flex mb-3">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-tint text-primary"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>Irrigation System Activated</h6>
+                                    <p class="text-muted mb-0">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-temperature-high text-danger"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>High Temperature Alert</h6>
+                                    <p class="text-muted mb-0">5 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-seedling text-success"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h6>Growth Stage Update</h6>
+                                    <p class="text-muted mb-0">1 day ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recommendations - AgriSim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        .recommendation-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .recommendation-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .priority-high {
+            border-left: 4px solid var(--danger);
+        }
+        .priority-medium {
+            border-left: 4px solid var(--warning);
+        }
+        .priority-low {
+            border-left: 4px solid var(--success);
+        }
+        .recommendation-meta {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        .recommendation-actions {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">AgriSim</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="risks.html">Risk Monitoring</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="marketplace.html">Marketplace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="map.html">Farm Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="farm-config.html">Farm Config</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="recommendations.html">AI Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Recommendations Content -->
+    <div class="container mt-5 pt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 style="margin-top: 100px;"></h1>
+            <div class="btn-group">
+                <button class="btn btn-outline-primary active">All</button>
+                <button class="btn btn-outline-primary">High Priority</button>
+                <button class="btn btn-outline-primary">Medium Priority</button>
+                <button class="btn btn-outline-primary">Low Priority</button>
+            </div>
+        </div>
+
+        <!-- High Priority Recommendation -->
+        <div class="recommendation-card priority-high">
+            <div class="recommendation-meta">
+                <span class="badge bg-danger me-2">High Priority</span>
+                <span><i class="fas fa-clock me-1"></i>Generated 2 hours ago</span>
+            </div>
+            <h3><i class="fas fa-exclamation-triangle me-2"></i>Immediate Irrigation Adjustment Needed</h3>
+            <p>Based on current soil moisture levels and weather forecasts, your rice field requires immediate attention. The AI has detected that the current irrigation schedule is not optimal for the current growth stage.</p>
+            <div class="recommendation-details">
+                <h5>Recommended Actions:</h5>
+                <ul>
+                    <li>Increase irrigation frequency to twice daily for the next 3 days</li>
+                    <li>Adjust water level to maintain 5-7cm depth</li>
+                    <li>Monitor soil moisture levels every 6 hours</li>
+                </ul>
+                <p><strong>Expected Impact:</strong> This adjustment could improve yield by up to 15% and prevent potential water stress.</p>
+            </div>
+            <div class="recommendation-actions">
+                <button class="btn btn-primary me-2">Apply Recommendation</button>
+                <button class="btn btn-outline-secondary">View Details</button>
+            </div>
+        </div>
+
+        <!-- Medium Priority Recommendation -->
+        <div class="recommendation-card priority-medium">
+            <div class="recommendation-meta">
+                <span class="badge bg-warning me-2">Medium Priority</span>
+                <span><i class="fas fa-clock me-1"></i>Generated 5 hours ago</span>
+            </div>
+            <h3><i class="fas fa-seedling me-2"></i>Fertilizer Application Schedule</h3>
+            <p>Analysis of your soil nutrient levels indicates that a balanced fertilizer application would be beneficial for your corn crop in the next 7 days.</p>
+            <div class="recommendation-details">
+                <h5>Recommended Actions:</h5>
+                <ul>
+                    <li>Apply NPK fertilizer (14-14-14) at 200kg per hectare</li>
+                    <li>Split application into two sessions, 3 days apart</li>
+                    <li>Ensure soil is moist before application</li>
+                </ul>
+                <p><strong>Expected Impact:</strong> This could improve nutrient uptake and support healthy growth during the current vegetative stage.</p>
+            </div>
+            <div class="recommendation-actions">
+                <button class="btn btn-primary me-2">Apply Recommendation</button>
+                <button class="btn btn-outline-secondary">View Details</button>
+            </div>
+        </div>
+
+        <!-- Low Priority Recommendation -->
+        <div class="recommendation-card priority-low">
+            <div class="recommendation-meta">
+                <span class="badge bg-success me-2">Low Priority</span>
+                <span><i class="fas fa-clock me-1"></i>Generated 1 day ago</span>
+            </div>
+            <h3><i class="fas fa-calendar-alt me-2"></i>Long-term Crop Rotation Plan</h3>
+            <p>Based on your farm's history and current soil conditions, the AI suggests implementing a crop rotation plan for the next growing season.</p>
+            <div class="recommendation-details">
+                <h5>Recommended Actions:</h5>
+                <ul>
+                    <li>Rotate current rice field with legumes in the next season</li>
+                    <li>Consider planting mung beans or soybeans</li>
+                    <li>Prepare soil with organic matter before next planting</li>
+                </ul>
+                <p><strong>Expected Impact:</strong> This rotation could improve soil fertility and reduce pest pressure in the long term.</p>
+            </div>
+            <div class="recommendation-actions">
+                <button class="btn btn-primary me-2">Apply Recommendation</button>
+                <button class="btn btn-outline-secondary">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

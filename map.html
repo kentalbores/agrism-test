@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Map - AgriSim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: calc(100vh - 76px);
+            width: 100%;
+        }
+        .farm-popup {
+            max-width: 300px;
+        }
+        .farm-popup img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .farm-info {
+            margin-bottom: 10px;
+        }
+        .farm-info i {
+            width: 20px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">AgriSim</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="risks.html">Risk Monitoring</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="marketplace.html">Marketplace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="map.html">Farm Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="farm-config.html">Farm Config</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recommendations.html">AI Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Map Controls -->
+    <div class="position-fixed bottom-0 end-0 m-4">
+        <div class="btn-group-vertical">
+            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#filterModal">
+                <i class="fas fa-filter"></i>
+            </button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFarmModal">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal fade" id="filterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Farms</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Crop Type</label>
+                        <select class="form-select">
+                            <option value="">All Crops</option>
+                            <option>Rice</option>
+                            <option>Corn</option>
+                            <option>Vegetables</option>
+                            <option>Fruits</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Farm Size</label>
+                        <select class="form-select">
+                            <option value="">Any Size</option>
+                            <option>Small (0-5 hectares)</option>
+                            <option>Medium (5-20 hectares)</option>
+                            <option>Large (20+ hectares)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Soil Type</label>
+                        <select class="form-select">
+                            <option value="">All Types</option>
+                            <option>Clay</option>
+                            <option>Sandy</option>
+                            <option>Loamy</option>
+                            <option>Volcanic</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Farm Modal -->
+    <div class="modal fade" id="addFarmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Farm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Farm Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" placeholder="Click on the map to set location" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Farm Size (hectares)</label>
+                            <input type="number" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Crop Type</label>
+                            <select class="form-select" required>
+                                <option value="">Select Crop Type</option>
+                                <option>Rice</option>
+                                <option>Corn</option>
+                                <option>Vegetables</option>
+                                <option>Fruits</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add Farm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize map centered on Cebu
+        const map = L.map('map').setView([10.3157, 123.8854], 10);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Sample farm data
+        const farms = [
+            {
+                name: "Green Valley Farm",
+                location: [10.3157, 123.8854],
+                size: 15,
+                crop: "Rice",
+                soil: "Clay",
+                image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            {
+                name: "Sunny Hills Farm",
+                location: [10.3257, 123.8954],
+                size: 8,
+                crop: "Corn",
+                soil: "Loamy",
+                image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            },
+            {
+                name: "Mountain View Farm",
+                location: [10.3057, 123.8754],
+                size: 25,
+                crop: "Vegetables",
+                soil: "Volcanic",
+                image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            }
+        ];
+
+        // Add farm markers
+        farms.forEach(farm => {
+            const marker = L.marker(farm.location).addTo(map);
+            const popupContent = `
+                <div class="farm-popup">
+                    <img src="${farm.image}" alt="${farm.name}">
+                    <h5>${farm.name}</h5>
+                    <div class="farm-info">
+                        <p><i class="fas fa-ruler-combined"></i> Size: ${farm.size} hectares</p>
+                        <p><i class="fas fa-seedling"></i> Crop: ${farm.crop}</p>
+                        <p><i class="fas fa-mountain"></i> Soil: ${farm.soil}</p>
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100">View Details</button>
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+        });
+    </script>
+</body>
+</html> 

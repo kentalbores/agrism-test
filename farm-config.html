@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Configuration - AgriSim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        .form-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">AgriSim</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="risks.html">Risk Monitoring</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="marketplace.html">Marketplace</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="map.html">Farm Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="farm-config.html">Farm Config</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="recommendations.html">AI Recommendations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Farm Configuration Content -->
+    <div class="container mt-5 pt-4">
+        <h1 class="mb-4">Farm Configuration</h1>
+        
+        <form>
+            <!-- Basic Information -->
+            <div class="form-section">
+                <h3><i class="fas fa-info-circle me-2"></i>Basic Information</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Farm Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Farm Type</label>
+                        <select class="form-select" required>
+                            <option value="">Select Farm Type</option>
+                            <option>Commercial</option>
+                            <option>Subsistence</option>
+                            <option>Organic</option>
+                            <option>Mixed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location and Size -->
+            <div class="form-section">
+                <h3><i class="fas fa-map-marker-alt me-2"></i>Location and Size</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">City/Municipality</label>
+                        <input type="text" class="form-control" id="city" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Province</label>
+                        <input type="text" class="form-control" value="Cebu" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Total Area (hectares)</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Elevation (meters above sea level)</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soil Information -->
+            <div class="form-section">
+                <h3><i class="fas fa-mountain me-2"></i>Soil Information</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Soil Type</label>
+                        <select class="form-select" required>
+                            <option value="">Select Soil Type</option>
+                            <option>Clay</option>
+                            <option>Sandy</option>
+                            <option>Loamy</option>
+                            <option>Volcanic</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">pH Level</label>
+                        <input type="number" class="form-control" step="0.1" min="0" max="14" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nitrogen Content (%)</label>
+                        <input type="number" class="form-control" step="0.1" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Phosphorus Content (%)</label>
+                        <input type="number" class="form-control" step="0.1" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Potassium Content (%)</label>
+                        <input type="number" class="form-control" step="0.1" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water Resources -->
+            <div class="form-section">
+                <h3><i class="fas fa-tint me-2"></i>Water Resources</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Water Source</label>
+                        <select class="form-select" multiple required>
+                            <option>Rainfall</option>
+                            <option>Irrigation System</option>
+                            <option>Well</option>
+                            <option>River/Stream</option>
+                            <option>Pond/Lake</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Irrigation System Type</label>
+                        <select class="form-select">
+                            <option value="">Select if applicable</option>
+                            <option>Drip Irrigation</option>
+                            <option>Sprinkler System</option>
+                            <option>Flood Irrigation</option>
+                            <option>None</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crop Information -->
+            <div class="form-section">
+                <h3><i class="fas fa-seedling me-2"></i>Crop Information</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Primary Crop</label>
+                        <select class="form-select" required>
+                            <option value="">Select Primary Crop</option>
+                            <option>Rice</option>
+                            <option>Corn</option>
+                            <option>Vegetables</option>
+                            <option>Fruits</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Planting Season</label>
+                        <select class="form-select" required>
+                            <option value="">Select Season</option>
+                            <option>Dry Season</option>
+                            <option>Wet Season</option>
+                            <option>Year-round</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Additional Notes</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter any additional information about your farm..."></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-primary btn-lg">Save Farm Configuration</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
