@@ -1,0 +1,2286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SigniFi Educator Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 375px;
+            z-index: 100;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 10px 6px;
+            text-align: center;
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab.active {
+            color: #4f46e5;
+            background: #f8faff;
+        }
+
+        .nav-tab .icon {
+            font-size: 18px;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: white;
+            padding: 50px 20px 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 15px 15px;
+            opacity: 0.6;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .greeting {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+            font-weight: 400;
+        }
+
+        .instructor-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .see-all {
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Metric Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .metric-icon.revenue { background: #dcfce7; color: #22c55e; }
+        .metric-icon.students { background: #dbeafe; color: #3b82f6; }
+        .metric-icon.courses { background: #fef3c7; color: #f59e0b; }
+        .metric-icon.engagement { background: #f3e8ff; color: #a855f7; }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .metric-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .metric-change.positive {
+            background: #dcfce7;
+            color: #22c55e;
+        }
+
+        .metric-change.negative {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 24px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .chart-period {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .chart-container {
+            height: 120px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            height: 80px;
+        }
+
+        .chart-bar {
+            width: 20px;
+            background: linear-gradient(to top, #4f46e5, #7c3aed);
+            border-radius: 4px 4px 0 0;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+        }
+
+        /* Course Card */
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .course-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .course-status {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .course-status.published {
+            background: #dcfce7;
+            color: #22c55e;
+        }
+
+        .course-status.draft {
+            background: #fef3c7;
+            color: #f59e0b;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .course-progress {
+            width: 100%;
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .course-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Content Creation */
+        .create-button {
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .create-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Video Recording Interface */
+        .recording-interface {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 24px;
+        }
+
+        .camera-preview {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+        }
+
+        .recording-status {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .recording-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .record-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .record-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Analytics Components */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .analytics-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .analytics-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .student-progress {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .student-score {
+            background: #dcfce7;
+            color: #22c55e;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Screen States */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Accessibility */
+        .high-contrast .metric-card {
+            border: 2px solid #1e293b;
+        }
+
+        .large-text {
+            font-size: 1.1em;
+        }
+
+        .large-text .nav-tab {
+            font-size: 11px;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 320px) {
+            .container {
+                max-width: 320px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Dashboard Screen -->
+        <div class="screen active" id="dashboard">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Good morning,</div>
+                    <div class="instructor-name">Prof. Juan Santos</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">248</div>
+                            <div class="stat-label">Active Students</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">₱45,200</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Avg Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Key Metrics</h2>
+                        <a href="#" class="see-all">View All</a>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon revenue">💰</div>
+                            <div class="metric-value">₱45,200</div>
+                            <div class="metric-label">Monthly Revenue</div>
+                            <div class="metric-change positive">+12.5%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon students">👥</div>
+                            <div class="metric-value">248</div>
+                            <div class="metric-label">Active Students</div>
+                            <div class="metric-change positive">+8.2%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon courses">📚</div>
+                            <div class="metric-value">12</div>
+                            <div class="metric-label">Live Courses</div>
+                            <div class="metric-change positive">+2</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon engagement">📊</div>
+                            <div class="metric-value">87%</div>
+                            <div class="metric-label">Engagement Rate</div>
+                            <div class="metric-change positive">+3.1%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Revenue Trend</div>
+                            <div class="chart-period">Last 7 days</div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-bars">
+                                <div class="chart-bar" style="height: 40%;"></div>
+                                <div class="chart-bar" style="height: 60%;"></div>
+                                <div class="chart-bar" style="height: 80%;"></div>
+                                <div class="chart-bar" style="height: 45%;"></div>
+                                <div class="chart-bar" style="height: 95%;"></div>
+                                <div class="chart-bar" style="height: 70%;"></div>
+                                <div class="chart-bar" style="height: 85%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Activity</h2>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">New Student Enrolled</div>
+                                <div style="font-size: 13px; color: #64748b;">Basic FSL Course</div>
+                            </div>
+                            <div class="course-status published">New</div>
+                        </div>
+                        <div style="font-size: 12px; color: #64748b;">2 minutes ago</div>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">Course Completed</div>
+                                <div style="font-size: 13px; color: #64748b;">Maria Santos - Intermediate FSL</div>
+                            </div>
+                            <div class="course-status published">★ 5.0</div>
+                        </div>
+                        <div style="font-size: 12px; color: #64748b;">1 hour ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Management Screen -->
+        <div class="screen" id="courses">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Course Management</div>
+                    <div class="instructor-name">My Courses</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Published</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Drafts</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">₱3,200</div>
+                            <div class="stat-label">Avg Price</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <button class="create-button" onclick="showScreen('content')">
+                    <span>📹</span>
+                    Create New Course
+                </button>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">My Courses</h2>
+                        <a href="#" class="see-all">Manage All</a>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">Complete FSL Beginner Course</div>
+                                <div class="course-status published">Published</div>
+                            </div>
+                        </div>
+                        <div class="course-meta">
+                            <span>127 students</span>
+                            <span>8 modules</span>
+                            <span>₱2,500</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="course-progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <div class="course-stats">
+                            <span>4.9 ⭐ (127 reviews)</span>
+                            <span>₱317,500 earned</span>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">Business FSL Communication</div>
+                                <div class="course-status published">Published</div>
+                            </div>
+                        </div>
+                        <div class="course-meta">
+                            <span>89 students</span>
+                            <span>6 modules</span>
+                            <span>₱3,200</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="course-progress-fill" style="width: 100%;"></div>
+                        </div>
+                        <div class="course-stats">
+                            <span>4.8 ⭐ (89 reviews)</span>
+                            <span>₱284,800 earned</span>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">Advanced FSL Conversations</div>
+                                <div class="course-status draft">Draft</div>
+                            </div>
+                        </div>
+                        <div class="course-meta">
+                            <span>0 students</span>
+                            <span>4/8 modules</span>
+                            <span>₱4,000</span>
+                        </div>
+                        <div class="course-progress">
+                            <div class="course-progress-fill" style="width: 50%;"></div>
+                        </div>
+                        <div class="course-stats">
+                            <span>50% complete</span>
+                            <span>Ready for review</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Screen -->
+        <div class="screen" id="analytics">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Student Analytics</div>
+                    <div class="instructor-name">Performance Insights</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">87%</div>
+                            <div class="stat-label">Completion</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Avg Score</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">248</div>
+                            <div class="stat-label">Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Student Engagement</div>
+                            <div class="chart-period">This week</div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-bars">
+                                <div class="chart-bar" style="height: 85%;"></div>
+                                <div class="chart-bar" style="height: 92%;"></div>
+                                <div class="chart-bar" style="height: 78%;"></div>
+                                <div class="chart-bar" style="height: 95%;"></div>
+                                <div class="chart-bar" style="height: 88%;"></div>
+                                <div class="chart-bar" style="height: 90%;"></div>
+                                <div class="chart-bar" style="height: 93%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Top Performers</h2>
+                        <a href="#" class="see-all">View All</a>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="student-item">
+                            <div class="student-avatar">M</div>
+                            <div class="student-info">
+                                <div class="student-name">Maria Santos</div>
+                                <div class="student-progress">Completed 8/8 modules</div>
+                            </div>
+                            <div class="student-score">98%</div>
+                        </div>
+                        <div class="student-item">
+                            <div class="student-avatar">J</div>
+                            <div class="student-info">
+                                <div class="student-name">Jose Cruz</div>
+                                <div class="student-progress">Completed 7/8 modules</div>
+                            </div>
+                            <div class="student-score">95%</div>
+                        </div>
+                        <div class="student-item">
+                            <div class="student-avatar">A</div>
+                            <div class="student-info">
+                                <div class="student-name">Ana Reyes</div>
+                                <div class="student-progress">Completed 8/8 modules</div>
+                            </div>
+                            <div class="student-score">94%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Course Performance</h2>
+                    </div>
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">Basic FSL Course</div>
+                                <div style="font-size: 13px; color: #64748b;">127 students</div>
+                            </div>
+                            <div class="course-status published">87%</div>
+                        </div>
+                        <div class="course-progress">
+                            <div class="course-progress-fill" style="width: 87%;"></div>
+                        </div>
+                        <div class="course-stats">
+                            <span>Avg completion: 87%</span>
+                            <span>Avg score: 4.9/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Creation Studio -->
+        <div class="screen" id="content">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Content Studio</div>
+                    <div class="instructor-name">Create New Course</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">25</div>
+                            <div class="stat-label">Videos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12.5</div>
+                            <div class="stat-label">Hours</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Course Creation Wizard -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Course Setup</h2>
+                        <div class="wizard-steps">
+                            <span class="step active">1</span>
+                            <span class="step">2</span>
+                            <span class="step">3</span>
+                            <span class="step">4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="course-setup-card">
+                        <div class="setup-form">
+                            <div class="form-group">
+                                <label class="form-label">Course Title</label>
+                                <input type="text" class="form-input" placeholder="e.g., Advanced FSL Conversations" value="">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" placeholder="Course description and learning objectives..."></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Price (₱)</label>
+                                    <input type="number" class="form-input" placeholder="3500">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Duration</label>
+                                    <select class="form-input">
+                                        <option>4 weeks</option>
+                                        <option>6 weeks</option>
+                                        <option>8 weeks</option>
+                                        <option>12 weeks</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Recording Interface -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Record Lesson</h2>
+                        <div class="recording-mode">
+                            <button class="mode-btn active">📹 Video</button>
+                            <button class="mode-btn">🎤 Audio</button>
+                            <button class="mode-btn">📱 Screen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="recording-interface">
+                        <div class="camera-preview">
+                            <div class="camera-overlay">
+                                <div class="recording-status">
+                                    <div class="status-indicator">● REC 00:02:34</div>
+                                    <div class="gesture-feedback">
+                                        <div class="gesture-indicator active">✋ Hand detected</div>
+                                        <div class="gesture-quality">Signal quality: Excellent</div>
+                                    </div>
+                                </div>
+                                <div class="recording-controls">
+                                    <button class="control-btn">⏸️</button>
+                                    <button class="record-btn">⏹️</button>
+                                    <button class="control-btn">🔄</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recording-settings">
+                            <div class="setting-row">
+                                <span class="setting-label">Quality</span>
+                                <select class="setting-select">
+                                    <option>1080p HD</option>
+                                    <option>720p HD</option>
+                                    <option>480p</option>
+                                </select>
+                            </div>
+                            <div class="setting-row">
+                                <span class="setting-label">Auto-focus</span>
+                                <button class="toggle-btn active">ON</button>
+                            </div>
+                            <div class="setting-row">
+                                <span class="setting-label">Gesture Guide</span>
+                                <button class="toggle-btn active">ON</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Library -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Content Library</h2>
+                        <button class="upload-btn">📁 Upload</button>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-item">
+                            <div class="content-thumbnail">
+                                <div class="play-overlay">▶️</div>
+                                <div class="duration-badge">03:45</div>
+                            </div>
+                            <div class="content-info">
+                                <div class="content-title">Lesson 1: Basic Greetings</div>
+                                <div class="content-meta">1080p • 12.5 MB</div>
+                            </div>
+                            <div class="content-actions">
+                                <button class="action-btn">✏️</button>
+                                <button class="action-btn">🗑️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="content-item">
+                            <div class="content-thumbnail processing">
+                                <div class="processing-spinner">⟳</div>
+                            </div>
+                            <div class="content-info">
+                                <div class="content-title">Lesson 2: Numbers</div>
+                                <div class="content-meta">Processing... 65%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="secondary-btn">Save Draft</button>
+                    <button class="primary-btn">Continue Setup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue & Payments Screen -->
+        <div class="screen" id="revenue">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Revenue Dashboard</div>
+                    <div class="instructor-name">Financial Overview</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">₱45,200</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">₱520,800</div>
+                            <div class="stat-label">Total Earned</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">₱8,500</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Revenue Chart -->
+                <div class="section">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-title">Monthly Revenue</div>
+                            <div class="chart-period">Last 6 months</div>
+                        </div>
+                        <div class="chart-container revenue-chart">
+                            <div class="revenue-bars">
+                                <div class="revenue-bar" style="height: 45%;">
+                                    <div class="bar-value">₱25K</div>
+                                </div>
+                                <div class="revenue-bar" style="height: 60%;">
+                                    <div class="bar-value">₱32K</div>
+                                </div>
+                                <div class="revenue-bar" style="height: 80%;">
+                                    <div class="bar-value">₱42K</div>
+                                </div>
+                                <div class="revenue-bar" style="height: 70%;">
+                                    <div class="bar-value">₱38K</div>
+                                </div>
+                                <div class="revenue-bar" style="height: 95%;">
+                                    <div class="bar-value">₱48K</div>
+                                </div>
+                                <div class="revenue-bar" style="height: 85%;">
+                                    <div class="bar-value">₱45K</div>
+                                </div>
+                            </div>
+                            <div class="chart-labels">
+                                <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment History -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Payments</h2>
+                        <a href="#" class="see-all">View All</a>
+                    </div>
+                    
+                    <div class="payment-list">
+                        <div class="payment-item">
+                            <div class="payment-info">
+                                <div class="payment-title">Course Sale - Basic FSL</div>
+                                <div class="payment-meta">Maria Santos • Dec 15, 2024</div>
+                            </div>
+                            <div class="payment-amount positive">+₱2,500</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-info">
+                                <div class="payment-title">Platform Fee</div>
+                                <div class="payment-meta">Monthly commission • Dec 15, 2024</div>
+                            </div>
+                            <div class="payment-amount negative">-₱3,200</div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="payment-info">
+                                <div class="payment-title">Payout to Bank</div>
+                                <div class="payment-meta">BPI Account ****1234 • Dec 14, 2024</div>
+                            </div>
+                            <div class="payment-amount neutral">₱35,000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Revenue Breakdown -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Course Performance</h2>
+                    </div>
+                    
+                    <div class="revenue-breakdown">
+                        <div class="course-revenue-card">
+                            <div class="course-revenue-header">
+                                <div class="course-name">Basic FSL Course</div>
+                                <div class="course-earnings">₱317,500</div>
+                            </div>
+                            <div class="revenue-details">
+                                <div class="detail-row">
+                                    <span>127 enrollments</span>
+                                    <span>₱2,500 each</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Platform fee (8%)</span>
+                                    <span>-₱25,400</span>
+                                </div>
+                                <div class="detail-row total">
+                                    <span>Net earnings</span>
+                                    <span>₱292,100</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="course-revenue-card">
+                            <div class="course-revenue-header">
+                                <div class="course-name">Business FSL</div>
+                                <div class="course-earnings">₱284,800</div>
+                            </div>
+                            <div class="revenue-details">
+                                <div class="detail-row">
+                                    <span>89 enrollments</span>
+                                    <span>₱3,200 each</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Platform fee (8%)</span>
+                                    <span>-₱22,784</span>
+                                </div>
+                                <div class="detail-row total">
+                                    <span>Net earnings</span>
+                                    <span>₱262,016</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payout Settings -->
+                <div class="section">
+                    <div class="payout-card">
+                        <div class="payout-header">
+                            <h3>Payout Settings</h3>
+                            <button class="edit-btn">Edit</button>
+                        </div>
+                        <div class="payout-info">
+                            <div class="bank-info">
+                                <div class="bank-name">Bank of the Philippine Islands</div>
+                                <div class="account-number">Account: ****1234</div>
+                            </div>
+                            <div class="payout-schedule">
+                                <div class="schedule-text">Next payout: Dec 30, 2024</div>
+                                <div class="amount-text">Amount: ₱8,500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile & Settings Screen -->
+        <div class="screen" id="profile">
+            <div class="header">
+                <div class="header-content">
+                    <div class="greeting">Profile & Settings</div>
+                    <div class="instructor-name">Prof. Juan Santos</div>
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3.2K</div>
+                            <div class="stat-label">Followers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">248</div>
+                            <div class="stat-label">Students</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <!-- Profile Info -->
+                <div class="section">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <div class="avatar-image">JS</div>
+                                <button class="edit-avatar">📷</button>
+                            </div>
+                            <div class="profile-info">
+                                <div class="profile-name">Prof. Juan Santos</div>
+                                <div class="profile-title">FSL Certified Instructor</div>
+                                <div class="profile-location">📍 Manila, Philippines</div>
+                            </div>
+                        </div>
+                        <div class="profile-bio">
+                            <p>Certified Filipino Sign Language instructor with 15+ years of experience. Passionate about making FSL accessible to everyone.</p>
+                        </div>
+                        <button class="edit-profile-btn">Edit Profile</button>
+                    </div>
+                </div>
+
+                <!-- Quick Settings -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Quick Settings</h2>
+                    </div>
+                    
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Notifications</div>
+                                <div class="setting-desc">Course updates and messages</div>
+                            </div>
+                            <button class="toggle-btn active">ON</button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Auto-publish</div>
+                                <div class="setting-desc">Automatically publish approved content</div>
+                            </div>
+                            <button class="toggle-btn">OFF</button>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Analytics Emails</div>
+                                <div class="setting-desc">Weekly performance reports</div>
+                            </div>
+                            <button class="toggle-btn active">ON</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Management -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Account</h2>
+                    </div>
+                    
+                    <div class="account-menu">
+                        <a href="#" class="menu-item">
+                            <div class="menu-icon">👤</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Personal Information</div>
+                                <div class="menu-desc">Update your details</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                        
+                        <a href="#" class="menu-item">
+                            <div class="menu-icon">💳</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Payment Methods</div>
+                                <div class="menu-desc">Manage payout settings</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                        
+                        <a href="#" class="menu-item">
+                            <div class="menu-icon">🔒</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Privacy & Security</div>
+                                <div class="menu-desc">Password and permissions</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                        
+                        <a href="#" class="menu-item">
+                            <div class="menu-icon">📊</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Data & Analytics</div>
+                                <div class="menu-desc">Export your data</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                        
+                        <a href="#" class="menu-item">
+                            <div class="menu-icon">❓</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Help & Support</div>
+                                <div class="menu-desc">Contact us</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                        
+                        <a href="#" class="menu-item logout">
+                            <div class="menu-icon">🚪</div>
+                            <div class="menu-text">
+                                <div class="menu-title">Log Out</div>
+                                <div class="menu-desc">Sign out of your account</div>
+                            </div>
+                            <div class="menu-arrow">›</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showScreen('dashboard')">
+                <span class="icon">📊</span>
+                Dashboard
+            </button>
+            <button class="nav-tab" onclick="showScreen('courses')">
+                <span class="icon">📚</span>
+                Courses
+            </button>
+            <button class="nav-tab" onclick="showScreen('content')">
+                <span class="icon">📹</span>
+                Create
+            </button>
+            <button class="nav-tab" onclick="showScreen('analytics')">
+                <span class="icon">📈</span>
+                Analytics
+            </button>
+            <button class="nav-tab" onclick="showScreen('revenue')">
+                <span class="icon">💰</span>
+                Revenue
+            </button>
+            <button class="nav-tab" onclick="showScreen('profile')">
+                <span class="icon">👤</span>
+                Profile
+            </button>
+        </div>
+    </div>
+
+    <style>
+        /* Additional Styles for New Screens */
+        
+        /* Wizard Steps */
+        .wizard-steps {
+            display: flex;
+            gap: 8px;
+        }
+
+        .step {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .step.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        /* Form Elements */
+        .course-setup-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background: white;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Recording Interface Enhancements */
+        .recording-mode {
+            display: flex;
+            gap: 8px;
+        }
+
+        .mode-btn {
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            background: white;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        .status-indicator {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .gesture-feedback {
+            font-size: 12px;
+        }
+
+        .gesture-indicator {
+            color: #22c55e;
+            margin-bottom: 4px;
+        }
+
+        .gesture-quality {
+            color: #94a3b8;
+        }
+
+        .recording-settings {
+            padding: 16px 0;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .setting-select {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .toggle-btn {
+            background: #e5e7eb;
+            color: #6b7280;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            background: #22c55e;
+            color: white;
+        }
+
+        /* Content Library */
+        .upload-btn {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #4f46e5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .content-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-thumbnail {
+            width: 60px;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content-thumbnail.processing {
+            background: #fef3c7;
+        }
+
+        .play-overlay {
+            color: #4f46e5;
+            font-size: 16px;
+        }
+
+        .processing-spinner {
+            color: #f59e0b;
+            font-size: 16px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .content-info {
+            flex: 1;
+        }
+
+        .content-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .content-meta {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .content-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .primary-btn, .secondary-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        /* Revenue Screen Styles */
+        .revenue-chart {
+            height: 160px;
+        }
+
+        .revenue-bars {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            height: 120px;
+            padding: 0 10px;
+        }
+
+        .revenue-bar {
+            flex: 1;
+            max-width: 40px;
+            background: linear-gradient(to top, #4f46e5, #7c3aed);
+            border-radius: 4px 4px 0 0;
+            margin: 0 4px;
+            position: relative;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding-bottom: 8px;
+        }
+
+        .bar-value {
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 14px 0;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .payment-list {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .payment-meta {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .payment-amount {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .payment-amount.positive {
+            color: #22c55e;
+        }
+
+        .payment-amount.negative {
+            color: #ef4444;
+        }
+
+        .payment-amount.neutral {
+            color: #64748b;
+        }
+
+        .revenue-breakdown {
+            display: grid;
+            gap: 16px;
+        }
+
+        .course-revenue-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .course-revenue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .course-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .course-earnings {
+            font-size: 18px;
+            font-weight: 800;
+            color: #4f46e5;
+        }
+
+        .revenue-details {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 16px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .detail-row.total {
+            border-top: 1px solid #f1f5f9;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .payout-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .payout-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .payout-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .edit-btn {
+            background: #f8fafc;
+            color: #4f46e5;
+            border: 1px solid #e2e8f0;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .payout-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bank-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .account-number {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .schedule-text, .amount-text {
+            font-size: 12px;
+            color: #64748b;
+            text-align: right;
+        }
+
+        .amount-text {
+            font-weight: 600;
+            color: #22c55e;
+        }
+
+        /* Profile Screen Styles */
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #f1f5f9;
+            margin-bottom: 24px;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .profile-avatar {
+            position: relative;
+        }
+
+        .avatar-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e5e7eb;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .profile-title {
+            font-size: 14px;
+            color: #4f46e5;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .profile-location {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .profile-bio {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .edit-profile-btn {
+            width: 100%;
+            background: #f8fafc;
+            color: #4f46e5;
+            border: 2px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .settings-list, .account-menu {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+        }
+
+        .setting-item, .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .setting-item:last-child, .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-title, .menu-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .setting-desc, .menu-desc {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .menu-item {
+            gap: 12px;
+        }
+
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .menu-text {
+            flex: 1;
+        }
+
+        .menu-arrow {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .menu-item.logout .menu-icon {
+            background: #fee2e2;
+        }
+
+        .menu-item.logout .menu-title {
+            color: #ef4444;
+        }
+
+        /* Navigation Updates */
+        .nav-tabs {
+            grid-template-columns: repeat(6, 1fr);
+        }
+
+        .nav-tab {
+            padding: 8px 4px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 320px) {
+            .nav-tab {
+                font-size: 9px;
+                padding: 6px 2px;
+            }
+            
+            .nav-tab .icon {
+                font-size: 16px;
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+
+    <script>
+        // Screen Navigation
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            event.target.closest('.nav-tab').classList.add('active');
+            
+            // Add fade-in animation
+            document.getElementById(screenId).classList.add('fade-in');
+            setTimeout(() => {
+                document.getElementById(screenId).classList.remove('fade-in');
+            }, 300);
+        }
+
+        // Toggle Functions
+        function toggleSetting(btn) {
+            btn.classList.toggle('active');
+            const isActive = btn.classList.contains('active');
+            btn.textContent = isActive ? 'ON' : 'OFF';
+        }
+
+        // Recording Functions
+        let isRecording = false;
+        let recordingTime = 0;
+        let recordingInterval;
+
+        function toggleRecording() {
+            const recordBtn = document.querySelector('.record-btn');
+            const statusIndicator = document.querySelector('.status-indicator');
+            
+            if (!isRecording) {
+                // Start recording
+                isRecording = true;
+                recordBtn.innerHTML = '⏹️';
+                recordBtn.style.background = '#ef4444';
+                
+                recordingInterval = setInterval(() => {
+                    recordingTime++;
+                    const minutes = Math.floor(recordingTime / 60);
+                    const seconds = recordingTime % 60;
+                    statusIndicator.innerHTML = `● REC ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            } else {
+                // Stop recording
+                isRecording = false;
+                recordBtn.innerHTML = '📹';
+                recordBtn.style.background = '#22c55e';
+                clearInterval(recordingInterval);
+                recordingTime = 0;
+                statusIndicator.innerHTML = '● Ready to Record';
+            }
+        }
+
+        // Form Validation
+        function validateCourseForm() {
+            const title = document.querySelector('input[placeholder*="Advanced FSL"]').value;
+            const description = document.querySelector('textarea').value;
+            const price = document.querySelector('input[type="number"]').value;
+            
+            if (!title || !description || !price) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => toggleSetting(btn));
+            });
+            
+            // Set up recording button
+            document.querySelector('.record-btn').addEventListener('click', toggleRecording);
+            
+            // Set up form validation
+            document.querySelectorAll('.primary-btn').forEach(btn => {
+                if (btn.textContent.includes('Continue')) {
+                    btn.addEventListener('click', validateCourseForm);
+                }
+            });
+            
+            // Animate metric cards on load
+            setTimeout(() => {
+                document.querySelectorAll('.metric-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(0)';
+                        card.style.opacity = '1';
+                    }, index * 100);
+                });
+            }, 500);
+        });
+
+        // Accessibility Functions
+        function enableHighContrast() {
+            document.body.classList.toggle('high-contrast');
+        }
+
+        function increaseFontSize() {
+            document.body.classList.toggle('large-text');
+        }
+
+        // Analytics Chart Animation
+        function animateCharts() {
+            document.querySelectorAll('.chart-bar, .revenue-bar').forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.transform = 'scaleY(1)';
+                    bar.style.transformOrigin = 'bottom';
+                }, index * 100);
+            });
+        }
+
+        // Revenue Calculations
+        function calculateRevenue(enrollments, price, platformFee = 0.08) {
+            const gross = enrollments * price;
+            const fee = gross * platformFee;
+            const net = gross - fee;
+            
+            return {
+                gross: gross,
+                fee: fee,
+                net: net
+            };
+        }
+
+        // Course Progress Tracking
+        function updateCourseProgress(courseId, progress) {
+            const progressBar = document.querySelector(`[data-course="${courseId}"] .course-progress-fill`);
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        // Search and Filter Functions
+        function filterCourses(status) {
+            const courses = document.querySelectorAll('.course-card');
+            courses.forEach(course => {
+                const courseStatus = course.querySelector('.course-status').textContent.toLowerCase();
+                if (status === 'all' || courseStatus.includes(status)) {
+                    course.style.display = 'block';
+                } else {
+                    course.style.display = 'none';
+                }
+            });
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#4f46e5'};
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Export Functions
+        function exportAnalytics(format = 'csv') {
+            showNotification('Exporting analytics data...', 'info');
+            // Implementation would handle actual export
+            setTimeout(() => {
+                showNotification('Analytics exported successfully!', 'success');
+            }, 2000);
+        }
+
+        function exportRevenue(format = 'pdf') {
+            showNotification('Generating revenue report...', 'info');
+            setTimeout(() => {
+                showNotification('Revenue report generated!', 'success');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+</rewritten_file>
